@@ -1,23 +1,26 @@
 import { Col, Container, Row } from "react-bootstrap"
 import NavBar from "./components/nav/NavBar";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import EstimatesPage from "./pages/EstimatesPage";
+import RoutesList from "./RoutesList";
 
 function App() {
   return (
     <Container fluid className="App">
-      <Row>
-        <Col className="p-0">
-          <NavBar />
-        </Col>
-      </Row>
-      <Container fluid>
-        <Row className="mt-4">
-          <Col>
-            <EstimatesPage />
+      <Router>
+        <Row>
+          <Col className="p-0">
+            <NavBar />
           </Col>
         </Row>
-      </Container>
+        <Container fluid className="">
+          <Row className="mt-4">
+            <Col>
+              <RoutesList />
+            </Col>
+          </Row>
+        </Container>
+      </Router>
     </Container>
   );
 }

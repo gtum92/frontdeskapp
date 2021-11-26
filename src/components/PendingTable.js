@@ -39,7 +39,7 @@ function PendingTable() {
                                 </ul>
                             </td>
                             <td >
-                                <Button variant="link" size="sm" className="m-0 p-0">edit</Button>
+                                <Button variant="link" size="sm" className="p-0">edit</Button>
                             </td>
                         </tr>
                     </tbody>

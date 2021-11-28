@@ -15,11 +15,14 @@ function NavBar() {
                     </Col>
                     <Col className="d-flex align-items-center justify-content-center">
                         <Nav>
-                            <Nav.Item className={`${location === "/estimates" && "border rounded"} px-2 `}>
+                            <Nav.Item className={`${location === "/estimates" && "border-bottom border-dark"} px-2 mx-1`}>
                                 <Nav.Link active={location === "/estimates" && true} as={Link} to="/estimates">Estimates</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className={`${location === "/workorders" && "border rounded"} px-2 `}>
+                            <Nav.Item className={`${location === "/workorders" && "border-bottom border-dark"} px-2 mx-1`}>
                                 <Nav.Link active={location === "/workorders" && true} as={Link} to="/workorders">Workorders</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item className={`${location === "/tires" && "border-bottom border-dark"} px-2 mx-1`}>
+                                <Nav.Link active={location === "/tires" && true} as={Link} to="/tires">Tires</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>

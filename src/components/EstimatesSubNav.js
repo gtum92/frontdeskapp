@@ -19,10 +19,11 @@ function EstimatesSubNav({ subPage, setSubPage }) {
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link
-                    name="follow-up"
-                    className={`${subPage === "follow-up" ? "subnav-active" : "text-secondary"}`}
+                    name="ready"
+                    className={`${subPage === "ready" ? "subnav-active" : "text-secondary"}`}
                     onClick={handleSubPage}
-                >Follow Up</Nav.Link>
+                >Ready for Follow Up
+                </Nav.Link>
             </Nav.Item>
         </Nav>
     )

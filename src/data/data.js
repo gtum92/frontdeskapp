@@ -2,6 +2,7 @@
 const newQuoteInitial = {
     id: "",
     dateCreated: "",
+    dateDeleted: "",
     fullName: "",
     phone: "",
     year: "",

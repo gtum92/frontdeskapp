@@ -47,7 +47,7 @@ function EstimatesTable({ estimatesList, subPage, handleEditShow }) {
                                                 })}
                                             </ul>
                                         </td>
-                                        <td>$ {estimates.total}</td>
+                                        <td><strong>$ {estimates.total}</strong></td>
                                         <td>
                                             <Button
                                                 variant="link"

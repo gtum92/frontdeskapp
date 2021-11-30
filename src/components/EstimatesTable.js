@@ -39,13 +39,13 @@ function EstimatesTable({ estimatesList, subPage, handleEditShow }) {
                                         <td>{estimates.plate}</td>
                                         <td>{estimates.reason}</td>
                                         <td>
-                                            <ul>
+                                            <ol>
                                                 {estimates.services.map(service => {
                                                     return (
                                                         <li>{service.description} {service.price > 0 && "- " + "$" + service.price} </li>
                                                     )
                                                 })}
-                                            </ul>
+                                            </ol>
                                         </td>
                                         <td><strong>$ {estimates.total}</strong></td>
                                         <td>

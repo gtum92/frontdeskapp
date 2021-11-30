@@ -21,12 +21,16 @@ function NavBar() {
                             <Nav.Item className={`${location === "/workorders" && "border-bottom border-dark"} px-2 mx-1`}>
                                 <Nav.Link active={location === "/workorders" && true} as={Link} to="/workorders">Workorders</Nav.Link>
                             </Nav.Item>
+                            <Nav.Item className={`${location === "/invoices" && "border-bottom border-dark"} px-2 mx-1`}>
+                                <Nav.Link active={location === "/invoices" && true} as={Link} to="/invoices">Invoices</Nav.Link>
+                            </Nav.Item>
                             <Nav.Item className={`${location === "/tires" && "border-bottom border-dark"} px-2 mx-1`}>
                                 <Nav.Link active={location === "/tires" && true} as={Link} to="/tires">Tires</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
-                    <Col>
+                    <Col className="d-flex justify-content-center align-items-center">
+                        ADMIN
                     </Col>
                 </Row>
             </Container>

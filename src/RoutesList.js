@@ -3,32 +3,24 @@ import { Routes, Route } from "react-router-dom";
 import React from 'react'
 import EstimatesPage from "./pages/EstimatesPage";
 import WorkordersPage from "./pages/WorkordersPage";
+import InvoicesPage from "./pages/InvoicesPage";
 
 
-function RoutesList({ estimatesList, setEstimatesList, workordersList, setWorkordersList, setDeclinedList, declinedList }) {
+
+function RoutesList() {
     return (
         <Routes>
             <Route
                 path="/estimates"
-                element={
-                    <EstimatesPage
-                        estimatesList={estimatesList}
-                        setEstimatesList={setEstimatesList}
-                        declinedList={declinedList}
-                        setDeclinedList={setDeclinedList}
-                        setWorkordersList={setWorkordersList}
-                        workordersList={workordersList}
-                    />
-                }
+                element={<EstimatesPage />}
             />
             <Route
                 path="/workorders"
-                element={
-                    <WorkordersPage
-                        workordersList={workordersList}
-                        setWorkordersList={setWorkordersList}
-                    />
-                }
+                element={<WorkordersPage />}
+            />
+            <Route
+                path="/invoices"
+                element={<InvoicesPage />}
             />
         </Routes>
     )

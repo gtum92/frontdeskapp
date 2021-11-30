@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import './estimates-page.css'
 import newQuoteInitial from '../data/data'
-
+import database from 'firebase/database'
 import EstimatesTable from '../components/EstimatesTable'
 import EstimatesSubNav from '../components/EstimatesSubNav'
 import NewQuoteModal from '../components/new-quote-form/NewQuoteModal'
-import database from '../firebase'
 import { getDatabase, ref, onValue } from "firebase/database";
 
-function EstimatesPage({ estimatesList, setEstimatesList, setDeclinedList, declinedList, setWorkordersList, workordersList }) {
-
+function EstimatesPage() {
+    const [estimatesList, setEstimatesList] = useState([])
     const [subPage, setSubPage] = useState("pending")
     const [showNewQuoteModal, setNewQuoteModal] = useState(false)
     const [newQuote, setNewQuote] = useState({ ...newQuoteInitial })
@@ -42,7 +41,7 @@ function EstimatesPage({ estimatesList, setEstimatesList, setDeclinedList, decli
         setNewQuoteModal(true)
         setEdit(true)
     }
-    console.log(newQuote)
+
     return (
         <Row>
             <Col className="d-flex align-items-center justify-content-between">
@@ -78,10 +77,6 @@ function EstimatesPage({ estimatesList, setEstimatesList, setDeclinedList, decli
                 estimatesList={estimatesList}
                 edit={edit}
                 setEdit={setEdit}
-                declinedList={declinedList}
-                setDeclinedList={setDeclinedList}
-                setWorkordersList={setWorkordersList}
-                workordersList={workordersList}
             />
 
         </Row>

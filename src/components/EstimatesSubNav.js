@@ -13,14 +13,14 @@ function EstimatesSubNav({ subPage, setSubPage }) {
             <Nav.Item >
                 <Nav.Link
                     name="pending"
-                    className={`${subPage === "pending" ? "subnav-active" : "text-secondary"}`}
+                    className={`${subPage === "pending" ? "subnav-active text-dark" : "text-secondary"}`}
                     onClick={handleSubPage}
                 >Pending</Nav.Link>
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link
                     name="ready"
-                    className={`${subPage === "ready" ? "subnav-active" : "text-secondary"}`}
+                    className={`${subPage === "ready" ? "subnav-active text-dark" : "text-secondary"}`}
                     onClick={handleSubPage}
                 >Ready for Follow Up
                 </Nav.Link>

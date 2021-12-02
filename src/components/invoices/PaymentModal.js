@@ -1,115 +1,99 @@
-import React from 'react'
-import { Modal, Col, Row, Button, ButtonGroup, Form, InputGroup } from 'react-bootstrap'
-import { getDatabase, ref, set } from "firebase/database";
+import React, { useEffect, useState } from 'react'
+import { Modal, Button } from 'react-bootstrap'
+import { getDatabase, ref, set, onValue } from "firebase/database";
 import ContactInfo from './ContactInfo';
 import VehicleInfo from './VehicleInfo';
 import InvoiceInfo from './InvoiceInfo';
+import PaymentInfo from './PaymentInfo';
+import TotalDueInfo from './TotalDueInfo';
+import RecievedMoney from './RecievedMoney';
 
 function PaymentModal({ setInvoice, invoice, getPay, setGetPay }) {
 
+    const [diff, setDiff] = useState(0);
+
+    useEffect(() => {
+        if (getPay === true && invoice != "") {
+            if (invoice.payment === "credit" || invoice.payment === "split" || invoice.invoice == "true") {
+                const db = getDatabase()
+                const invoicesListRef = ref(db, 'invoices/');
+                onValue(invoicesListRef, (snapshot) => {
+                    const data = snapshot.val();
+                    const list = []
+                    for (let job in data) {
+                        if (data[job].id === invoice.id) {
+                            data[job].id = job
+                            list.push(data[job])
+                        }
+                    }
+                    if (list.length > 0) {
+                        setInvoice({ ...invoice, total: parseFloat(Number(list[0].total) * 1.13).toFixed(2) })
+                        setDiff(parseFloat(((Number(list[0].total) * 1.13) - Number(invoice.cash) - Number(invoice.credit))).toFixed(2))
+                    }
+
+                })
+            } else {
+                const db = getDatabase()
+                const invoicesListRef = ref(db, 'invoices/');
+                onValue(invoicesListRef, (snapshot) => {
+                    const data = snapshot.val();
+                    const list = []
+                    for (let job in data) {
+                        if (data[job].id === invoice.id) {
+                            data[job].id = job
+                            list.push(data[job])
+                        }
+                    }
+                    if (list.length > 0) {
+                        setInvoice({ ...invoice, total: Number(list[0].total) })
+                        setDiff(parseFloat((Number(list[0].total) - Number(invoice.cash) - Number(invoice.credit))).toFixed(2))
+                    }
+                })
+            }
+        }
+
+    }, [invoice.payment, invoice.invoice, invoice.cash, invoice.credit])
+
+
     function handlePayment(e) {
         const { name, value } = e.target
-        setInvoice({ ...invoice, [name]: value })
-        console.log(e.target.name)
+        if (name === "invoice" || name === "payment") {
+            setInvoice({ ...invoice, [name]: value, cash: 0, credit: 0 })
+        } else {
+            setInvoice({ ...invoice, [name]: value })
+        }
     }
 
     function handlePay(e) {
         const db = getDatabase()
         const date = new Date()
-        set(ref(db, 'invoices/' + invoice.id), { ...invoice, status: "invoice-paid", datePaid: date.toString() })
-        setInvoice({})
+        set(ref(db, 'invoices/' + invoice.id), { ...invoice, status: "invoice-paid", datePaid: date.toString(), difference: diff })
+        setInvoice("")
         setGetPay(false)
     }
 
     function handleClose(e) {
-        const db = getDatabase()
-        // set(ref(db, 'invoices/' + invoice.id), { ...invoice, payment: "", cash: 0, credit: 0, invoice: "" })
-        setInvoice({})
+        setInvoice("")
         setGetPay(false)
     }
+
     return (
         <Modal show={getPay}>
-            <Modal.Header>
+            <Modal.Header className="bg-light">
                 <Modal.Title>Payment</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ContactInfo invoice={invoice} />
                 <VehicleInfo invoice={invoice} />
                 <InvoiceInfo invoice={invoice} handlePayment={handlePayment} />
-                <Row className="mb-3">
-                    <Col xs={4} className="d-flex align-items-center">
-                        <Form.Label className="m-0">Payment Type</Form.Label>
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                        <ButtonGroup size="sm">
-                            <Button
-                                size="sm"
-                                name="payment"
-                                value="cash"
-                                active={invoice.payment === "cash"}
-                                variant="outline-dark"
-                                onClick={handlePayment}
-                            >Cash
-                            </Button>
-                            <Button
-                                size="sm"
-                                name="payment"
-                                value="credit"
-                                active={invoice.payment === "credit"}
-                                variant="outline-dark"
-                                onClick={handlePayment}
-                            >Credit
-                            </Button>
-                            <Button
-                                size="sm"
-                                name="payment"
-                                value="split"
-                                active={invoice.payment === "split"}
-                                variant="outline-dark"
-                                onClick={handlePayment}
-                            >Split
-                            </Button>
-                        </ButtonGroup>
-                    </Col>
-                </Row>
-                <Row className="mb-3">
-                    <Col xs={4} className="d-flex align-items-center">
-                        <Form.Label className="m-0">Total Due</Form.Label>
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                        <h5
-                            className="border p-2 w-50 text-center rounded border-dark bg-light"
-                        >{"$ " + parseFloat(invoice.total).toFixed(2)}
-                        </h5>
-                    </Col>
-                </Row>
+                <PaymentInfo invoice={invoice} handlePayment={handlePayment} />
+                <TotalDueInfo invoice={invoice} />
                 <hr className="my-3 mb-4" />
-                <Row className="mb-3">
-                    <Col xs={4} className="d-flex align-items-center">
-                        <Form.Label className="m-0">Cash Recieved</Form.Label>
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                        <InputGroup size="sm" className="w-50">
-                            <InputGroup.Text >$</InputGroup.Text>
-                            <Form.Control name="cash" value={invoice.cash} placeHolder="enter cash" />
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row className="mb-3">
-                    <Col xs={4} className="d-flex align-items-center">
-                        <Form.Label className="m-0">Credit Recieved</Form.Label>
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                        <InputGroup size="sm" className="w-50">
-                            <InputGroup.Text>$</InputGroup.Text>
-                            <Form.Control name="credit" value={invoice.credit} placeHolder="enter credit" />
-                        </InputGroup>
-                    </Col>
-                </Row>
+                <RecievedMoney invoice={invoice} setInvoice={setInvoice} handlePayment={handlePayment} diff={diff} />
             </Modal.Body>
             <Modal.Footer className="justify-content-between">
                 <Button size="sm" onClick={handleClose} variant="outline-dark">Cancel</Button>
-                <Button size="sm" variant="dark">Payment</Button>
+                <Button size="sm" variant="dark" onClick={handlePay}>Receive Payment</Button>
             </Modal.Footer>
         </Modal>
     )

@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Table, Card } from 'react-bootstrap'
+import { Table, Card, Button, Badge } from 'react-bootstrap'
 import { getDatabase, ref, onValue, set } from "firebase/database";
 
-function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
+function PaidTable({ subNav }) {
 
     const [invoiceList, setInvoiceList] = useState([])
-
-    function handlePay(id) {
-        setGetPay(true)
-        const getInvoice = invoiceList.filter(item => item.id === id)[0]
-        setInvoice({ ...getInvoice, payment: "cash", cash: 0, credit: 0, invoice: "false" })
-    }
-
-    function handleEdit(id) {
-        const db = getDatabase()
-        const invoiceRef = ref(db, 'invoices/' + id);
-        const getInvoice = invoiceList.filter(item => item.id === id)[0]
-        set(ref(db, "workorders/" + id), { ...getInvoice, status: "workorder-garage" })
-        set(invoiceRef, null)
-    }
 
     useEffect(() => {
         const db = getDatabase()
@@ -31,7 +17,9 @@ function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
                 list.push(data[job])
             }
             setInvoiceList(list.filter(invoice => invoice.status === "invoice-" + subNav))
+            console.log(list)
         });
+
     }, [subNav])
 
     return (
@@ -43,6 +31,7 @@ function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
                         <th>Vehicle</th>
                         <th>Services</th>
                         <th>Total</th>
+                        <th>Date Paid</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -57,9 +46,6 @@ function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
                                     <div>
                                         {invoice.phone}
                                     </div>
-                                    <div className="mt-2">
-                                        <Button className="p-0 m-0" size="sm" variant="link" onClick={() => handleEdit(invoice.id)}>Send back to W.O.</Button>
-                                    </div>
                                 </td>
                                 <td>{invoice.vehicle} {invoice.plate}</td>
                                 <td>
@@ -72,11 +58,7 @@ function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
                                     </ol>
                                 </td>
                                 <td>{"$" + parseFloat(invoice.total).toFixed(2)}</td>
-                                <td >
-                                    <div className="d-flex justify-content-end ">
-                                        <Button size="sm" variant="link" className="text-dark" onClick={() => handlePay(invoice.id)}>Receive Payment</Button>
-                                    </div>
-                                </td>
+                                <td><Badge className="bg-success">{new Date(invoice.datePaid).toLocaleDateString()}</Badge></td>
                             </tr>
                         )
                     })}
@@ -84,8 +66,7 @@ function InvoicesTable({ subNav, setGetPay, setInvoice, invoice }) {
             </Table>
 
         </Card>
-
     )
 }
 
-export default InvoicesTable
+export default PaidTable

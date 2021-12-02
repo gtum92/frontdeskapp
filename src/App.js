@@ -4,10 +4,9 @@ import NavBar from "./components/nav/NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
 import database from "./firebase";
 import RoutesList from "./RoutesList";
+import "./app.css"
 
 function App() {
-
-
   return (
     <Container fluid className="App">
       <Router>

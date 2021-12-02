@@ -12,7 +12,7 @@ function InvoiceInfo({ invoice, handlePayment }) {
                         size="sm"
                         name="invoice"
                         className="px-3"
-                        value={"false"}
+                        value={false}
                         active={invoice.invoice == "false"}
                         variant="outline-dark"
                         onClick={handlePayment}
@@ -22,7 +22,7 @@ function InvoiceInfo({ invoice, handlePayment }) {
                         size="sm"
                         className="px-3"
                         name="invoice"
-                        value={"true"}
+                        value={true}
                         active={invoice.invoice == "true"}
                         variant="outline-dark"
                         onClick={handlePayment}

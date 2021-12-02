@@ -13,7 +13,7 @@ function EstimatesTable({ estimatesList, subPage, handleEditShow }) {
                             <th>Contact</th>
                             <th>Vehicle</th>
                             <th>Plate</th>
-                            <th>Requests</th>
+                            <th>Notes</th>
                             <th>Services</th>
                             <th>Total</th>
                             <th></th>
@@ -37,7 +37,7 @@ function EstimatesTable({ estimatesList, subPage, handleEditShow }) {
                                             </ul>
                                         </td>
                                         <td>{estimates.plate}</td>
-                                        <td>{estimates.reason}</td>
+                                        <td>{estimates.notes}</td>
                                         <td>
                                             <ol>
                                                 {estimates.services.map(service => {

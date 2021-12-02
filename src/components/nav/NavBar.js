@@ -29,7 +29,7 @@ function NavBar() {
                             </Nav.Item>
                         </Nav>
                     </Col>
-                    <Col className="d-flex justify-content-center align-items-center">
+                    <Col className="d-flex justify-content-end align-items-center">
                         ADMIN
                     </Col>
                 </Row>

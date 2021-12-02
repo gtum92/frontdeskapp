@@ -26,7 +26,6 @@ function WorkordersPage() {
                 data[job].id = job
                 list.push(data[job])
             }
-
             setPendingWorkorders(list.filter(workorder => workorder.status === "workorder-pending"))
             setArrivedWorkorders(list.filter(workorder => workorder.status === "workorder-arrived"))
             setGarageWorkorders(list.filter(workorder => workorder.status === "workorder-garage"))
@@ -61,7 +60,6 @@ function WorkordersPage() {
                     <Col>
                         <h5>Garage</h5>
                         <WorkOrderCards data={garageWorkorders} setEdit={setEdit} setEditWorkorder={setEditWorkorder} />
-
                         <hr className="mt-4" />
                     </Col>
                 </Row>

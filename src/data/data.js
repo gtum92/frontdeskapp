@@ -12,7 +12,7 @@ const newQuoteInitial = {
     tireSize: "",
     plate: "",
     vin: "",
-    reason: "",
+    notes: "",
     status: "pending",
     total: 0,
     services: [
